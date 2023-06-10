@@ -4,9 +4,11 @@ const { generateAccessToken } = require('./authentication');
 require('dotenv').config();
 
 const refreshToken = async (req, res) => {
-    const refreshToken = req.body.token;
-    if (refreshToken == null) return res.sendStatus(401);
+    const cookies = req.cookies;
+    console.log(cookies)
+    if (!cookies?.refresh) return res.sendStatus(401);
 
+    const refreshToken = cookies.refresh
     const user = await userModel.findOne({ token: refreshToken });
     if (!user) return res.sendStatus(403);
 
@@ -17,4 +19,4 @@ const refreshToken = async (req, res) => {
     })
 }
 
-module.exports = refreshToken
+module.exports = refreshToken 

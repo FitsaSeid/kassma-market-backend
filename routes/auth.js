@@ -4,6 +4,6 @@ const refreshToken = require('../controller/refreshToken');
 const router = require('express').Router();
 
 router.post('/login', login)
-router.post('/refresh', refreshToken)
+router.get('/refresh', refreshToken)
 
 module.exports = router

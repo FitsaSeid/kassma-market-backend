@@ -20,11 +20,12 @@ const login = async (req, res) => {
             const refreshToken = jwt.sign(
                 { userName: userName, role: userExist.role },
                 process.env.JWT_REFRESH_TOKEN_SECRET,
-                { expiresIn: "1hr" }
+                { expiresIn: "60s" }
             )
             const accessToken = generateAccessToken(data);
 
             await userModel.updateMany({ _id: userExist._id }, { token: refreshToken });
+            res.cookie('refresh', refreshToken, { httpOnly: true, secure: false, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 })
             res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken })
         }
 
@@ -39,7 +40,7 @@ const generateAccessToken = (data) => {
     return jwt.sign(
         data,
         process.env.JWT_ACCESS_TOKEN_SECRET,
-        { expiresIn: "30m" })
+        { expiresIn: "15s" })
 }
 
 module.exports = {

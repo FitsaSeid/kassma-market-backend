@@ -16,14 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     token: {
         type: String,
-    },
-    expireAt: {
-        type: Date,
-        default: Date.now,
-        index: { expires: 60 * 60 * 24 }
     }
-}, {
-    timestamps: true
 })
 
 module.exports = mongoose.model("userModel", userSchema);
